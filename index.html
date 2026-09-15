@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="筋トレ記録">
+<link rel="manifest" href="manifest.json">
+<title>筋トレ記録</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>筋トレ記録</h1>
+
+  <section class="field">
+    <label for="exerciseName">種目</label>
+    <input list="exerciseList" id="exerciseName" placeholder="例: ベンチプレス" autocomplete="off">
+    <datalist id="exerciseList"></datalist>
+  </section>
+
+  <section id="lastRecord" class="last-record">種目を入力してください</section>
+
+  <section class="field-row">
+    <div class="field">
+      <label for="weight">重量 (kg)</label>
+      <input type="number" id="weight" inputmode="decimal" step="0.5" min="0">
+    </div>
+    <div class="field">
+      <label for="reps">回数</label>
+      <input type="number" id="reps" inputmode="numeric" min="0">
+    </div>
+    <div class="field">
+      <label for="sets">セット数</label>
+      <input type="number" id="sets" inputmode="numeric" min="0" value="3">
+    </div>
+  </section>
+
+  <button id="saveBtn">保存</button>
+
+  <p id="message" class="message"></p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
