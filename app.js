@@ -14,7 +14,7 @@ function saveData(data) {
 }
 
 const exerciseNameInput = document.getElementById("exerciseName");
-const exerciseListEl = document.getElementById("exerciseList");
+const exerciseSuggestionsEl = document.getElementById("exerciseSuggestions");
 const lastRecordEl = document.getElementById("lastRecord");
 const weightInput = document.getElementById("weight");
 const assistToggle = document.getElementById("assistToggle");
@@ -25,13 +25,25 @@ const messageEl = document.getElementById("message");
 
 let data = loadData();
 
-function refreshExerciseList() {
-  exerciseListEl.innerHTML = "";
-  Object.keys(data.exercises).forEach((name) => {
-    const opt = document.createElement("option");
-    opt.value = name;
-    exerciseListEl.appendChild(opt);
+function renderSuggestions() {
+  const query = exerciseNameInput.value.trim().toLowerCase();
+  const names = Object.keys(data.exercises).filter((name) =>
+    name.toLowerCase().includes(query)
+  );
+
+  exerciseSuggestionsEl.innerHTML = "";
+  names.forEach((name) => {
+    const li = document.createElement("li");
+    li.textContent = name;
+    li.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      exerciseNameInput.value = name;
+      exerciseSuggestionsEl.hidden = true;
+      updateLastRecord();
+    });
+    exerciseSuggestionsEl.appendChild(li);
   });
+  exerciseSuggestionsEl.hidden = names.length === 0;
 }
 
 function formatWeight(weight) {
@@ -100,13 +112,18 @@ function handleSave() {
     sets,
   });
   saveData(data);
-  refreshExerciseList();
   updateLastRecord();
   showMessage("保存しました");
 }
 
-exerciseNameInput.addEventListener("input", updateLastRecord);
+exerciseNameInput.addEventListener("input", () => {
+  updateLastRecord();
+  renderSuggestions();
+});
+exerciseNameInput.addEventListener("focus", renderSuggestions);
+exerciseNameInput.addEventListener("blur", () => {
+  exerciseSuggestionsEl.hidden = true;
+});
 saveBtn.addEventListener("click", handleSave);
 
-refreshExerciseList();
 updateLastRecord();

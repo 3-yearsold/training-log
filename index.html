@@ -16,8 +16,10 @@
 
   <section class="field">
     <label for="exerciseName">種目</label>
-    <input list="exerciseList" id="exerciseName" placeholder="例: ベンチプレス" autocomplete="off">
-    <datalist id="exerciseList"></datalist>
+    <div class="exercise-input-wrap">
+      <input id="exerciseName" placeholder="例: ベンチプレス" autocomplete="off">
+      <ul id="exerciseSuggestions" class="suggestions" hidden></ul>
+    </div>
   </section>
 
   <section id="lastRecord" class="last-record">種目を入力してください</section>

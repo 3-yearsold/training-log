@@ -81,6 +81,40 @@ input:focus {
   width: auto;
 }
 
+.exercise-input-wrap {
+  position: relative;
+}
+
+.suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 180px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.suggestions[hidden] {
+  display: none;
+}
+
+.suggestions li {
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.suggestions li:active {
+  background: var(--bg);
+}
+
 .last-record {
   background: var(--surface);
   border: 1px solid var(--border);
