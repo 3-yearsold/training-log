@@ -17,6 +17,7 @@ const exerciseNameInput = document.getElementById("exerciseName");
 const exerciseListEl = document.getElementById("exerciseList");
 const lastRecordEl = document.getElementById("lastRecord");
 const weightInput = document.getElementById("weight");
+const weightSignToggle = document.getElementById("weightSignToggle");
 const repsInput = document.getElementById("reps");
 const setsInput = document.getElementById("sets");
 const saveBtn = document.getElementById("saveBtn");
@@ -103,8 +104,15 @@ function handleSave() {
   showMessage("保存しました");
 }
 
+function toggleWeightSign() {
+  const value = parseFloat(weightInput.value);
+  if (isNaN(value) || value === 0) return;
+  weightInput.value = -value;
+}
+
 exerciseNameInput.addEventListener("input", updateLastRecord);
 saveBtn.addEventListener("click", handleSave);
+weightSignToggle.addEventListener("click", toggleWeightSign);
 
 refreshExerciseList();
 updateLastRecord();
