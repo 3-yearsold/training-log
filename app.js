@@ -70,6 +70,10 @@ function updateLastRecord() {
   const last = records[records.length - 1];
   lastRecordEl.textContent = formatRecord(last);
   lastRecordEl.classList.add("has-data");
+  weightInput.value = Math.abs(last.weight);
+  assistToggle.checked = last.weight < 0;
+  repsInput.value = last.reps;
+  setsInput.value = last.sets;
 }
 
 function todayString() {
