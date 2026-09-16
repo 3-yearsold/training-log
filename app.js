@@ -17,7 +17,7 @@ const exerciseNameInput = document.getElementById("exerciseName");
 const exerciseListEl = document.getElementById("exerciseList");
 const lastRecordEl = document.getElementById("lastRecord");
 const weightInput = document.getElementById("weight");
-const weightSignToggle = document.getElementById("weightSignToggle");
+const assistToggle = document.getElementById("assistToggle");
 const repsInput = document.getElementById("reps");
 const setsInput = document.getElementById("sets");
 const saveBtn = document.getElementById("saveBtn");
@@ -75,7 +75,8 @@ function showMessage(text) {
 
 function handleSave() {
   const name = exerciseNameInput.value.trim();
-  const weight = parseFloat(weightInput.value);
+  const rawWeight = parseFloat(weightInput.value);
+  const weight = assistToggle.checked ? -Math.abs(rawWeight) : rawWeight;
   const reps = parseInt(repsInput.value, 10);
   const sets = parseInt(setsInput.value, 10);
 
@@ -104,15 +105,8 @@ function handleSave() {
   showMessage("保存しました");
 }
 
-function toggleWeightSign() {
-  const value = parseFloat(weightInput.value);
-  if (isNaN(value) || value === 0) return;
-  weightInput.value = -value;
-}
-
 exerciseNameInput.addEventListener("input", updateLastRecord);
 saveBtn.addEventListener("click", handleSave);
-weightSignToggle.addEventListener("click", toggleWeightSign);
 
 refreshExerciseList();
 updateLastRecord();
