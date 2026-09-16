@@ -33,8 +33,12 @@ function refreshExerciseList() {
   });
 }
 
+function formatWeight(weight) {
+  return weight === 0 ? "自重" : `${weight}kg`;
+}
+
 function formatRecord(record) {
-  return `前回 (${record.date}): ${record.weight}kg × ${record.reps}回 × ${record.sets}セット`;
+  return `前回 (${record.date}): ${formatWeight(record.weight)} × ${record.reps}回 × ${record.sets}セット`;
 }
 
 function updateLastRecord() {
