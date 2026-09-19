@@ -1,5 +1,5 @@
 const STORAGE_KEY = "trainingLog";
-const APP_VERSION = "v1";
+const APP_VERSION = "v3";
 
 function loadData() {
   try {
@@ -25,8 +25,12 @@ const setsInput = document.getElementById("sets");
 const saveBtn = document.getElementById("saveBtn");
 const messageEl = document.getElementById("message");
 const historyListEl = document.getElementById("historyList");
+const rirButtonsEl = document.getElementById("rirButtons");
+const rirTipBtn = document.getElementById("rirTipBtn");
+const rirTipEl = document.getElementById("rirTip");
 
 let data = loadData();
+let selectedRir = null;
 
 function renderSuggestions() {
   const query = exerciseNameInput.value.trim().toLowerCase();
@@ -53,8 +57,19 @@ function formatWeight(weight) {
   return weight === 0 ? "自重" : `${weight}kg`;
 }
 
+function formatRir(record) {
+  return record.rir === undefined ? "" : ` RIR ${record.rir}`;
+}
+
+function setRir(value) {
+  selectedRir = value;
+  rirButtonsEl.querySelectorAll("button").forEach((b) => {
+    b.classList.toggle("active", Number(b.dataset.rir) === value);
+  });
+}
+
 function formatRecord(record) {
-  return `前回 (${record.date}): ${formatWeight(record.weight)} × ${record.reps}回 × ${record.sets}セット`;
+  return `前回 (${record.date}): ${formatWeight(record.weight)} × ${record.reps}回 × ${record.sets}セット${formatRir(record)}`;
 }
 
 function updateLastRecord() {
@@ -77,6 +92,7 @@ function updateLastRecord() {
   assistToggle.checked = last.weight < 0;
   repsInput.value = last.reps;
   setsInput.value = last.sets;
+  setRir(last.rir === undefined ? null : last.rir);
 }
 
 function todayString() {
@@ -112,7 +128,7 @@ function renderHistory() {
     byDate[date].forEach(({ name, record }) => {
       const item = document.createElement("div");
       item.className = "history-item";
-      item.textContent = `${name}  ${formatWeight(record.weight)} × ${record.reps}回 × ${record.sets}セット`;
+      item.textContent = `${name}  ${formatWeight(record.weight)} × ${record.reps}回 × ${record.sets}セット${formatRir(record)}`;
       day.appendChild(item);
     });
     historyListEl.appendChild(day);
@@ -146,12 +162,14 @@ function handleSave() {
   if (!data.exercises[name]) {
     data.exercises[name] = [];
   }
-  data.exercises[name].push({
+  const record = {
     date: recordDateInput.value || todayString(),
     weight,
     reps,
     sets,
-  });
+  };
+  if (selectedRir !== null) record.rir = selectedRir;
+  data.exercises[name].push(record);
   saveData(data);
   updateLastRecord();
   renderHistory();
@@ -167,6 +185,18 @@ exerciseNameInput.addEventListener("blur", () => {
   exerciseSuggestionsEl.hidden = true;
 });
 saveBtn.addEventListener("click", handleSave);
+
+rirButtonsEl.addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-rir]");
+  if (!btn) return;
+  const value = Number(btn.dataset.rir);
+  setRir(selectedRir === value ? null : value);
+});
+
+rirTipBtn.addEventListener("click", () => {
+  rirTipEl.hidden = !rirTipEl.hidden;
+  rirTipBtn.setAttribute("aria-expanded", String(!rirTipEl.hidden));
+});
 
 document.getElementById("refreshBtn").addEventListener("click", async () => {
   const urls = [location.href.split("#")[0], "style.css", "app.js"];
