@@ -16,6 +16,7 @@ function saveData(data) {
 const exerciseNameInput = document.getElementById("exerciseName");
 const exerciseSuggestionsEl = document.getElementById("exerciseSuggestions");
 const lastRecordEl = document.getElementById("lastRecord");
+const recordDateInput = document.getElementById("recordDate");
 const weightInput = document.getElementById("weight");
 const assistToggle = document.getElementById("assistToggle");
 const repsInput = document.getElementById("reps");
@@ -110,7 +111,7 @@ function handleSave() {
     data.exercises[name] = [];
   }
   data.exercises[name].push({
-    date: todayString(),
+    date: recordDateInput.value || todayString(),
     weight,
     reps,
     sets,
@@ -130,4 +131,5 @@ exerciseNameInput.addEventListener("blur", () => {
 });
 saveBtn.addEventListener("click", handleSave);
 
+recordDateInput.value = todayString();
 updateLastRecord();
