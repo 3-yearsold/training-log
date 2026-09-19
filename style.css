@@ -154,6 +154,35 @@ button:active {
   opacity: 0.85;
 }
 
+.history h2 {
+  font-size: 1.1rem;
+  margin: 24px 0 12px;
+}
+
+.history-day {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.history-date {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.history-item {
+  font-size: 0.95rem;
+  padding: 3px 0;
+}
+
+.history-empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .message {
   text-align: center;
   min-height: 1.2em;

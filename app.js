@@ -23,6 +23,7 @@ const repsInput = document.getElementById("reps");
 const setsInput = document.getElementById("sets");
 const saveBtn = document.getElementById("saveBtn");
 const messageEl = document.getElementById("message");
+const historyListEl = document.getElementById("historyList");
 
 let data = loadData();
 
@@ -83,6 +84,40 @@ function todayString() {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
+function renderHistory() {
+  const byDate = {};
+  Object.keys(data.exercises).forEach((name) => {
+    data.exercises[name].forEach((r) => {
+      (byDate[r.date] = byDate[r.date] || []).push({ name, record: r });
+    });
+  });
+  const dates = Object.keys(byDate).sort().reverse();
+
+  historyListEl.innerHTML = "";
+  if (dates.length === 0) {
+    const p = document.createElement("p");
+    p.className = "history-empty";
+    p.textContent = "まだ記録がありません";
+    historyListEl.appendChild(p);
+    return;
+  }
+  dates.forEach((date) => {
+    const day = document.createElement("div");
+    day.className = "history-day";
+    const head = document.createElement("div");
+    head.className = "history-date";
+    head.textContent = date;
+    day.appendChild(head);
+    byDate[date].forEach(({ name, record }) => {
+      const item = document.createElement("div");
+      item.className = "history-item";
+      item.textContent = `${name}  ${formatWeight(record.weight)} × ${record.reps}回 × ${record.sets}セット`;
+      day.appendChild(item);
+    });
+    historyListEl.appendChild(day);
+  });
+}
+
 function showMessage(text) {
   messageEl.textContent = text;
   setTimeout(() => {
@@ -118,6 +153,7 @@ function handleSave() {
   });
   saveData(data);
   updateLastRecord();
+  renderHistory();
   showMessage("保存しました");
 }
 
@@ -133,3 +169,4 @@ saveBtn.addEventListener("click", handleSave);
 
 recordDateInput.value = todayString();
 updateLastRecord();
+renderHistory();
