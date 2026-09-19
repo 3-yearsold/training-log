@@ -1,4 +1,5 @@
 const STORAGE_KEY = "trainingLog";
+const APP_VERSION = "v1";
 
 function loadData() {
   try {
@@ -175,6 +176,7 @@ document.getElementById("refreshBtn").addEventListener("click", async () => {
   location.reload();
 });
 
+document.getElementById("version").textContent = `バージョン: ${APP_VERSION}`;
 recordDateInput.value = todayString();
 updateLastRecord();
 renderHistory();

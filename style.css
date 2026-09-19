@@ -193,6 +193,12 @@ button:active {
   border: 1px solid var(--border);
 }
 
+.version {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
 .message {
   text-align: center;
   min-height: 1.2em;
