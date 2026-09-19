@@ -167,6 +167,14 @@ exerciseNameInput.addEventListener("blur", () => {
 });
 saveBtn.addEventListener("click", handleSave);
 
+document.getElementById("refreshBtn").addEventListener("click", async () => {
+  const urls = [location.href.split("#")[0], "style.css", "app.js"];
+  try {
+    await Promise.all(urls.map((u) => fetch(u, { cache: "reload" })));
+  } catch (e) {}
+  location.reload();
+});
+
 recordDateInput.value = todayString();
 updateLastRecord();
 renderHistory();

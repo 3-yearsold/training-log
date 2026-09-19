@@ -183,6 +183,16 @@ button:active {
   font-size: 0.9rem;
 }
 
+.secondary-btn {
+  margin-top: 24px;
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
 .message {
   text-align: center;
   min-height: 1.2em;
